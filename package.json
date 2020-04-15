@@ -1,6 +1,6 @@
 {
     "name": "chat-rooms",
-    "version": "0.1",
+    "version": "0.0.1",
     "description": "basic chat service",
     "main": "server.js",
     "scripts": {},
