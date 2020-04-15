@@ -13,18 +13,20 @@ app.get('/rooms/:roomId', function(req, res) {
   res.sendFile(__dirname + '/room.html');
 });
 
-io.on('connection', function(socket) {
-  console.log('a user connected');
+io.of('/chat')
+    .on('connection', function(socket) {
+      console.log('Connected to /chat');
 
-  socket.on('disconnect', function() {
-    console.log('user disconnected');
-  });
+      socket.on('join', function(data) {
+        console.log('Server joined room: ' + data.roomId);
+        socket.join(data.roomId);
+      });
 
-  socket.on('chat message', function(msg) {
-    console.log('message: ' + msg);
-    socket.broadcast.emit('chat message', msg);
-  });
-});
+      socket.on('message', function(data) {
+        const room = data.roomId;
+        socket.broadcast.to(room).emit('message', data.payload);
+      });
+    });
 
 http.listen(PORT, function() {
   console.log('listening on ' + PORT);

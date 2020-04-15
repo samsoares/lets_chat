@@ -17,17 +17,21 @@
   <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
   <script>
     $(function () {
-      var socket = io();
+      var chatSocket = io('/chat');
+
+      let room = window.location.pathname; // TODO: use render engine to populate this
+      chatSocket.emit('join', {roomId: room});
+
       $('form').submit(function(e){
         e.preventDefault(); // prevents page reloading
         let msg = $('#m').val();
-        socket.emit('chat message', msg);
+        chatSocket.emit('message', {roomId: room, payload: msg});
         $('#m').val('');
         $('#messages').append($('<li>').text(msg));
         return false;
       });
 
-      socket.on('chat message', function(msg){
+      chatSocket.on('message', function(msg){
         $('#messages').append($('<li>').text(msg));
       });
     });
