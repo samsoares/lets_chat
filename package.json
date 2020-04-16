@@ -3,7 +3,9 @@
     "version": "0.0.1",
     "description": "basic chat service",
     "main": "server.js",
-    "scripts": {},
+    "scripts": {
+        "start": "node server.js"
+    },
     "keywords": [],
     "author": "Samuel Soares",
     "engines": {},
