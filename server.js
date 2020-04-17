@@ -17,11 +17,10 @@ io.of('/chat')
         console.log('Server joined room: ' + data.roomId);
         socket.join(data.roomId);
       });
-
-      socket.on('message', function(data) {
-        console.log('received message: ' + data.payload);
-        const room = data.roomId;
-        socket.broadcast.to(room).emit('message', data.payload);
+      this.chatMsgId = 1;
+      socket.on('message', (data) => {
+        socket.broadcast.to(data.roomId).emit('message', {id: this.chatMsgId, roomId: data.roomId, senderId: data.userId, text: data.text});
+        this.chatMsgId++;
       });
     });
 
