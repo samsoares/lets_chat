@@ -23,7 +23,6 @@ class App extends Component {
   componentDidMount() {
     this.chatSocket.emit('join', {roomId: this.state.roomId});
     this.chatSocket.on('message', (message) => {
-      console.log("RETRIEVED MESSAGE" + message);
       this.setState({
         messages: [...this.state.messages, message]
       })

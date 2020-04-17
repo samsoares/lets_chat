@@ -19,7 +19,7 @@ io.of('/chat')
       });
       this.chatMsgId = 1;
       socket.on('message', (data) => {
-        socket.broadcast.to(data.roomId).emit('message', {id: this.chatMsgId, roomId: data.roomId, senderId: data.userId, text: data.text});
+        socket.broadcast.to(data.roomId).emit('message', {id: this.chatMsgId, roomId: data.roomId, senderId: data.senderId, text: data.text});
         this.chatMsgId++;
       });
     });
