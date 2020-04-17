@@ -7,7 +7,7 @@ class App extends Component {
     super();
     this.state = {
       response: false,
-      endpoint: 'localhost:4000/chat',
+      endpoint: '/chat',
       message: '',
       room: 'gaming',
     };
