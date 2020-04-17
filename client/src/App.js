@@ -97,8 +97,7 @@ class SendMessageForm extends React.Component {
       e.preventDefault();
       this.props.sendMessage({id: -1, roomId: this.props.roomId, senderId: this.state.username, text: this.state.message})
       this.setState({
-          message: '',
-          username: ''
+          message: ''
       })
   }
   
