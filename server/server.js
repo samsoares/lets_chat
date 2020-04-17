@@ -2,16 +2,7 @@ const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
-const PORT = (process.env.PORT || 3000);
-
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + '/index.html');
-});
-
-app.get('/rooms/:roomId', function(req, res) {
-  console.log('Connected to room ' + req.params['roomId']);
-  res.sendFile(__dirname + '/room.html');
-});
+const PORT = (process.env.PORT || 4000);
 
 io.of('/chat')
     .on('connection', function(socket) {
@@ -23,6 +14,7 @@ io.of('/chat')
       });
 
       socket.on('message', function(data) {
+        console.log('received message: ' + data.payload);
         const room = data.roomId;
         socket.broadcast.to(room).emit('message', data.payload);
       });
