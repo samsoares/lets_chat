@@ -8,7 +8,7 @@ class Title extends React.Component {
 	}
 	render() {
 		return (
-			<div className={"chatApp__convTitle"}>{this.props.owner}'s display</div>
+			<div className={"chatApp__convTitle"}>{this.props.owner} Chat Room</div>
 		);
 	}
 }
