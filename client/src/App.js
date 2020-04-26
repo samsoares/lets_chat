@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import "./App.css";
 import socketIOClient from "socket.io-client";
 
+const axios = require('axios');
+
 class Title extends React.Component {
   constructor(props, context) {
     super(props, context);
@@ -161,6 +163,16 @@ class ChatBox extends React.Component {
         messages: [...this.state.messages, message],
       });
     });
+
+    axios.get('/api/messages/' + this.props.roomId)
+      .then(response => {
+        if (messages !== null) {
+          this.setState({messages: response.data});
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   /* adds a new message to the chatroom */
@@ -175,10 +187,6 @@ class ChatBox extends React.Component {
       roomId: roomId,
     };
     this.chatSocket.emit("message", newMessageItem);
-    newMessageItem["id"] = this.state.messages.length - 1;
-    this.setState({
-      messages: [...this.state.messages, newMessageItem],
-    });
   }
 
   /* catch the sendMessage signal and update the loading state then continues the sending instruction */
