@@ -274,18 +274,23 @@ class App extends React.Component {
       avatar: 'https://i.imgur.com/JIHZl1g.png'
     };
 
+    const endpoint = process.env.NODE_ENV === 'development' ?
+      'localhost:4000/chat' :
+      '/chat';
+
     /* Group details - can add as many groups as desired */
     rooms[0] = {
       name: 'Gaming',
       roomId: 'gaming',
-      endpoint: '/chat',
-      user: user,
+      endpoint,
+      user,
     };
+
     rooms[1] = {
       name: 'Testing',
       roomId: 'testing',
-      endpoint: '/chat',
-      user: user,
+      endpoint,
+      user,
     };
 
     /* creation of a chatbox for each user present in the chatroom */
