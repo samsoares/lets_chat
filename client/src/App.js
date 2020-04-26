@@ -9,13 +9,13 @@ class Title extends React.Component {
 
   static get propTypes() {
     return {
-      owner: PropTypes.string.isRequired
+      name: PropTypes.string.isRequired
     };
   }
 
   render() {
     return (
-      <div className={'chatApp__convTitle'}>{this.props.owner} Chat Room</div>
+      <div className={'chatApp__convTitle'}>{this.props.name} Chat Room</div>
     );
   }
 }
@@ -41,8 +41,8 @@ class InputMessage extends React.Component {
     /* Disable sendMessage if the message is empty */
     if (this.messageInput.value.length > 0) {
       this.props.sendMessageLoading(
-        this.ownerInput.value,
-        this.ownerAvatarInput.value,
+        this.userInput.value,
+        this.userAvatarInput.value,
         this.messageInput.value,
       );
       /* Reset input after send*/
@@ -78,14 +78,14 @@ class InputMessage extends React.Component {
           type="text"
           placeholder="Username"
           autoComplete="off"
-          ref={(owner) => (this.ownerInput = owner)}
+          ref={(user) => (this.userInput = user)}
         />
         <input
           className={'chatApp_profilePicForm'}
           type="text"
           id="profile_picture"
           placeholder="Profile Picture URL"
-          ref={(ownerAvatar) => (this.ownerAvatarInput = ownerAvatar)}
+          ref={(userAvatar) => (this.userAvatarInput = userAvatar)}
         />
       </form>
     );
@@ -100,7 +100,7 @@ class MessageItem extends React.Component {
 
   static get propTypes() {
     return {
-      owner: PropTypes.string.isRequired,
+      user: PropTypes.object.isRequired,
       sender: PropTypes.string.isRequired,
       senderAvatar: PropTypes.string.isRequired,
       message: PropTypes.string.isRequired,
@@ -109,10 +109,12 @@ class MessageItem extends React.Component {
 
   render() {
     /* message position formatting - right if I'm the author */
+    // TODO: user is object. need to add username field
     const messagePosition =
-      this.props.owner === this.props.sender ?
+      this.props.user === this.props.sender ?
         'chatApp__convMessageItem--right' :
         'chatApp__convMessageItem--left';
+
     return (
       <div
         className={'chatApp__convMessageItem ' + messagePosition + ' clearfix'}
@@ -141,7 +143,7 @@ class MessageList extends React.Component {
   static get propTypes() {
     return {
       messages: PropTypes.array.isRequired,
-      owner: PropTypes.string.isRequired,
+      user: PropTypes.object.isRequired,
     };
   }
 
@@ -154,7 +156,7 @@ class MessageList extends React.Component {
           .map((messageItem) => (
             <MessageItem
               key={messageItem.id}
-              owner={this.props.owner}
+              user={this.props.user}
               sender={messageItem.sender}
               senderAvatar={messageItem.senderAvatar}
               message={messageItem.message}
@@ -245,13 +247,11 @@ class ChatBox extends React.Component {
   render() {
     return (
       <div className={'chatApp__conv'}>
-        <Title owner={this.props.roomName} />
-        <MessageList owner={this.props.user} messages={this.state.messages} />
+        <Title name={this.props.roomName} />
+        <MessageList user={this.props.user} messages={this.state.messages} />
         <div className={'chatApp__convSendMessage clearfix'}>
           <InputMessage
             isLoading={this.state.isLoading}
-            owner={this.props.user}
-            ownerAvatar={this.props.user.avatar}
             sendMessage={this.sendMessage}
             sendMessageLoading={this.sendMessageLoading}
           />
@@ -267,10 +267,12 @@ class App extends React.Component {
   render() {
     const rooms = {};
     const chatBoxes = [];
-    const user = [];
 
     // TODO: Define user profile on top level and pass in here
-    user.avatar = 'https://i.imgur.com/JIHZl1g.png';
+    const user = {
+      name: 'Anon',
+      avatar: 'https://i.imgur.com/JIHZl1g.png'
+    };
 
     /* Group details - can add as many groups as desired */
     rooms[0] = {
