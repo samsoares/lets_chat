@@ -4,6 +4,7 @@
 
 ### Server
 ```
+cd server
 npm i
 ```
 
@@ -16,7 +17,8 @@ npm i
 ## Deployment instructions
 ### Server
 ```
-npm start
+ cd server
+ node server.js
 ```
 
 ### Client 
