@@ -1,7 +1,7 @@
 # Let's Chat
 Let's chat is a simple chat application to discuss various topics with friends.
 
-![Lets_ChatP_Preview](https://github.com/samsoares/lets_chat/blob/master/resources/Preview.PNG)
+![Lets_ChatP_Preview](https://github.com/samsoares/lets_chat/blob/master/Preview.PNG)
 
 ## Installation
 ### Server
